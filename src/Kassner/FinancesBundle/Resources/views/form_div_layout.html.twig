@@ -1,0 +1,15 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block control_widget %}
+{% spaceless %}
+<ul class="control">
+    <li><button type="submit" id="{{ id }}" name="{{ full_name }}" class="btn btn-primary">{{ label|trans({}, translation_domain) }}</button></li>
+    {% if back_url %}
+    <li><a href="{{ back_url }}" class="btn btn-default">{{ back_label|trans({}, translation_domain) }}</a></li>
+    {% endif %}
+    {% if delete_url %}
+    <li><a onclick="return confirm('{{ delete_message|trans({}, translation_domain) }}');" href="{{ delete_url }}" class="btn btn-danger">{{ delete_label|trans({}, translation_domain) }}</a></li>
+    {% endif %}
+</ul>
+{% endspaceless %}
+{% endblock %}

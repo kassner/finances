@@ -1,0 +1,5 @@
+services:
+    twig.type.control:
+        class: Kassner\FinancesBundle\Form\Type\ControlType
+        tags:
+            - { name: form.type, alias: control }
