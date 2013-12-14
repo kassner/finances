@@ -1,0 +1,22 @@
+.content {
+    padding-top: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.content .crud .control {
+    margin-bottom: 20px;
+}
+
+.content form .control {
+    list-style-type: none;
+    display: table-cell;
+}
+.content form .control li {
+    float: left;
+    margin-right: 10px;
+}
+
+form ul.control {
+    padding-left: 0;
+}
