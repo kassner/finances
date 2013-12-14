@@ -1,0 +1,48 @@
+{% extends 'KassnerFinancesBundle::layout.html.twig' %}
+
+{% block body -%}
+<div class="crud">
+    <h1>{{ "Account edit"|trans }}</h1>
+
+    <div class="control">
+        <a class="btn btn-success" href="{{ path('account_new') }}">{{ "Add"|trans }}</a>
+        <a class="btn btn-default pull-right" data-toggle="collapse" href="#search-panel">{{ "Search"|trans }}</a>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="panel panel-default panel-collapse collapse {% if showSearch %}in{% else %}out{% endif %}" id="search-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ "Search"|trans }}</h3>
+        </div>
+        <div class="panel-body">
+            {{ form(search_form) }}
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>{{ "Id"|trans }}</th>
+                <th>{{ "Name"|trans }}</th>
+                <th width="170">{{ "Actions"|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.name }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('account_edit', { 'id': entity.id }) }}">{{ "Edit"|trans }}</a>
+                    <a class="btn btn-danger" href="{{ path('account_edit', { 'id': entity.id }) }}" onclick="return confirm('{{ "Are you sure?"|trans }}');">{{ "Delete"|trans }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="control">
+        <a class="btn btn-success" href="{{ path('account_new') }}">{{ "Add"|trans }}</a>
+    </div>
+</div>
+{% endblock %}
