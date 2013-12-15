@@ -2,10 +2,10 @@
 
 {% block body -%}
 <div class="crud">
-    <h1>{{ "Account list"|trans }}</h1>
+    <h1>{{ "Transaction list"|trans }}</h1>
 
     <div class="control">
-        <a class="btn btn-success" href="{{ path('account_new') }}">{{ "Add"|trans }}</a>
+        <a class="btn btn-success" href="{{ path('transaction_new') }}">{{ "Add"|trans }}</a>
         <a class="btn btn-default pull-right" data-toggle="collapse" href="#search-panel">{{ "Search"|trans }}</a>
         <div class="clearfix"></div>
     </div>
@@ -23,7 +23,8 @@
         <thead>
             <tr>
                 <th>{{ "Id"|trans }}</th>
-                <th>{{ "Name"|trans }}</th>
+                <th>{{ "Amount"|trans }}</th>
+                <th>{{ "Date"|trans }}</th>
                 <th width="170">{{ "Actions"|trans }}</th>
             </tr>
         </thead>
@@ -31,10 +32,11 @@
             {% for entity in entities %}
             <tr>
                 <td>{{ entity.id }}</td>
-                <td>{{ entity.name }}</td>
+                <td>{{ entity.amount }}</td>
+                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('account_edit', { 'id': entity.id }) }}">{{ "Edit"|trans }}</a>
-                    <a class="btn btn-danger" href="{{ path('account_edit', { 'id': entity.id }) }}" onclick="return confirm('{{ "Are you sure?"|trans }}');">{{ "Delete"|trans }}</a>
+                    <a class="btn btn-primary" href="{{ path('transaction_edit', { 'id': entity.id }) }}">{{ "Edit"|trans }}</a>
+                    <a class="btn btn-danger" href="{{ path('transaction_edit', { 'id': entity.id }) }}" onclick="return confirm('{{ "Are you sure?"|trans }}');">{{ "Delete"|trans }}</a>
                 </td>
             </tr>
             {% endfor %}
@@ -42,7 +44,7 @@
     </table>
 
     <div class="control">
-        <a class="btn btn-success" href="{{ path('account_new') }}">{{ "Add"|trans }}</a>
+        <a class="btn btn-success" href="{{ path('transaction_new') }}">{{ "Add"|trans }}</a>
     </div>
 </div>
 {% endblock %}
