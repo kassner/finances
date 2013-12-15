@@ -200,7 +200,7 @@ class TransactionController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'The Transaction was saved successfully.');
-            return $this->redirect($this->generateUrl('transaction_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('transaction'));
         }
 
         return array(

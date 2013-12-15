@@ -200,7 +200,7 @@ class AccountController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'The Account was saved successfully.');
-            return $this->redirect($this->generateUrl('account_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('account'));
         }
 
         return array(

@@ -200,7 +200,7 @@ class CategoryController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'The Category was saved successfully.');
-            return $this->redirect($this->generateUrl('category_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('category'));
         }
 
         return array(

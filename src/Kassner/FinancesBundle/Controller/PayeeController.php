@@ -200,7 +200,7 @@ class PayeeController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'The Payee was saved successfully.');
-            return $this->redirect($this->generateUrl('payee_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('payee'));
         }
 
         return array(
