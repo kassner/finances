@@ -1,5 +1,39 @@
 {% extends 'form_div_layout.html.twig' %}
 
+{% block field_rows %}
+{% spaceless %}
+    {% for child in form %}
+        {{ form_row(child) }}
+    {% endfor %}
+{% endspaceless %}
+{% endblock field_rows %}
+
+{% block form_row %}
+{% spaceless %}
+    {% set class='form-control' %}
+    {% if attr.class is defined %}
+        {% set class = class ~ ' ' ~ attr.class  %}
+    {% endif %}
+    <div class="form-group">
+        {{ form_label(form, label|trans) }}
+        {{ form_widget(form, { 'attr': {'class': class} }) }}
+        {{ form_errors(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+    <ul>
+        {% for error in errors %}
+            <li>{{ error.message|trans }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}
+
 {% block control_widget %}
 {% spaceless %}
 <ul class="control">
