@@ -1,0 +1,13 @@
+{% extends 'KassnerFinancesBundle::layout.html.twig' %}
+
+{% set page_title = "Create Category"|trans %}
+
+{% block body -%}
+<h1>{{ "Create Category"|trans }}</h1>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        {{ form(form) }}
+    </div>
+</div>
+{% endblock %}
