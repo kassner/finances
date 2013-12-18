@@ -30,7 +30,9 @@
             <div class="col-lg-2" style="padding: 0; margin: 0;">
                 <h2>Accounts</h2>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="#">Wallet <span class="pull-right">R$ 123,45</span></a></li>
+                    {% for account in accounts %}
+                    <li><a href="{{ path('transaction', { 'account': account.id }) }}">{{ account.name }} <span class="pull-right">{{ account.balance }}</span></a></li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-lg-10">

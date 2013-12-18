@@ -3,3 +3,15 @@ services:
         class: Kassner\FinancesBundle\Form\Type\ControlType
         tags:
             - { name: form.type, alias: control }
+            
+    twig.extension.accounts:
+        class: Kassner\FinancesBundle\Twig\AccountsExtension
+        arguments: [ @finances.repository.account ]
+        tags:
+            - { name: twig.extension }
+            
+    finances.repository.account:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ "KassnerFinancesBundle:Account" ]
