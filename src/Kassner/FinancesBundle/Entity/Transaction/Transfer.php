@@ -19,7 +19,7 @@ class Transfer extends Transaction
      *
      * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $toAccount;

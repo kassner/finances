@@ -27,7 +27,15 @@
             </div>
         </div>
         <div class="content">
+            <div class="col-lg-2" style="padding: 0; margin: 0;">
+                <h2>Accounts</h2>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="#">Wallet <span class="pull-right">R$ 123,45</span></a></li>
+                </ul>
+            </div>
+            <div class="col-lg-10">
             {% block body %}{% endblock %}
+            </div>
         </div>
         {% javascripts
             '@KassnerFinancesBundle/Resources/public/js/jquery-1.10.2.min.js'
