@@ -42,8 +42,7 @@
                 <td>{{ entity.type }}</td>
                 <td>
                     {% if entity.type == 'expense' or (entity.type == 'transfer' and account.id == entity.account.id) %}
-                    {# @TODO negative price #}
-                    {{ entity.amount|price }}
+                    {{ (entity.amount * -1)|price }}
                     {% else %}
                     {{ entity.amount|price }}
                     {% endif %}
