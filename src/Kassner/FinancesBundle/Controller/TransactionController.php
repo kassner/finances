@@ -37,6 +37,12 @@ class TransactionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('KassnerFinancesBundle:Transaction')->createQueryBuilder('t');
 
+        if ($request->get('account')) {
+            $query->leftJoin('t.transfer', 'tt');
+            $query->andWhere('t.account = :account OR tt.account = :account');
+            $query->setParameter('account', $request->get('account'));
+        }
+
         return array(
             'search_form' => $searchForm->createView(),
             'entities' => $query->getQuery()->getResult(),

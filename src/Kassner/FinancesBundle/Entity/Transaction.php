@@ -7,15 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Transaction
  *
- * @ORM\Table(name="transaction", indexes={@ORM\Index(name="fk_transaction_account_idx", columns={"account_id"}), @ORM\Index(name="fk_transaction_payee1_idx", columns={"payee_id"}), @ORM\Index(name="fk_transaction_category1_idx", columns={"category_id"})})
+ * @ORM\Table(name="transaction", indexes={@ORM\Index(name="IDX_723705D19B6B5FBA", columns={"account_id"}), @ORM\Index(name="IDX_723705D1CB4B68F", columns={"payee_id"}), @ORM\Index(name="IDX_723705D112469DE2", columns={"category_id"})})
  * @ORM\Entity
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *      "income" = "Kassner\FinancesBundle\Entity\Transaction\Income",
- *      "expense" = "Kassner\FinancesBundle\Entity\Transaction\Expense",
- *      "transfer" = "Kassner\FinancesBundle\Entity\Transaction\Transfer"
- * })
  */
 class Transaction
 {
@@ -30,9 +23,9 @@ class Transaction
     private $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="amount", type="decimal", nullable=false)
+     * @ORM\Column(name="amount", type="decimal", precision=12, scale=2, nullable=false)
      */
     private $amount;
 
@@ -44,11 +37,28 @@ class Transaction
     private $date;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=false)
+     */
+    private $type;
+
+    /**
+     * @var \Kassner\FinancesBundle\Entity\Category
+     *
+     * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Category")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * })
+     */
+    private $category;
+
+    /**
      * @var \Kassner\FinancesBundle\Entity\Account
      *
      * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id")
      * })
      */
     private $account;
@@ -64,138 +74,85 @@ class Transaction
     private $payee;
 
     /**
-     * @var \Kassner\FinancesBundle\Entity\Category
+     * @var \Kassner\FinancesBundle\Entity\TransactionTransfer
      *
-     * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Category")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * })
+     * @ORM\OneToOne(targetEntity="Kassner\FinancesBundle\Entity\TransactionTransfer", mappedBy="transaction")
      */
-    private $category;
+    private $transfer;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set amount
-     *
-     * @param float $amount
-     * @return Transaction
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Get amount
-     *
-     * @return float 
-     */
     public function getAmount()
     {
         return $this->amount;
     }
 
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Transaction
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime 
-     */
     public function getDate()
     {
         return $this->date;
     }
 
-    /**
-     * Set account
-     *
-     * @param \Kassner\FinancesBundle\Entity\Account $account
-     * @return Transaction
-     */
-    public function setAccount(\Kassner\FinancesBundle\Entity\Account $account = null)
+    public function getType()
     {
-        $this->account = $account;
-
-        return $this;
+        return $this->type;
     }
 
-    /**
-     * Get account
-     *
-     * @return \Kassner\FinancesBundle\Entity\Account 
-     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
     public function getAccount()
     {
         return $this->account;
     }
 
-    /**
-     * Set payee
-     *
-     * @param \Kassner\FinancesBundle\Entity\Payee $payee
-     * @return Transaction
-     */
-    public function setPayee(\Kassner\FinancesBundle\Entity\Payee $payee = null)
-    {
-        $this->payee = $payee;
-
-        return $this;
-    }
-
-    /**
-     * Get payee
-     *
-     * @return \Kassner\FinancesBundle\Entity\Payee 
-     */
     public function getPayee()
     {
         return $this->payee;
     }
 
-    /**
-     * Set category
-     *
-     * @param \Kassner\FinancesBundle\Entity\Category $category
-     * @return Transaction
-     */
-    public function setCategory(\Kassner\FinancesBundle\Entity\Category $category = null)
+    public function getTransfer()
     {
-        $this->category = $category;
-
-        return $this;
+        return $this->transfer;
     }
 
-    /**
-     * Get category
-     *
-     * @return \Kassner\FinancesBundle\Entity\Category 
-     */
-    public function getCategory()
+    public function setAmount($amount)
     {
-        return $this->category;
+        $this->amount = $amount;
+    }
+
+    public function setDate(\DateTime $date)
+    {
+        $this->date = $date;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    public function setCategory(\Kassner\FinancesBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+    }
+
+    public function setAccount(\Kassner\FinancesBundle\Entity\Account $account)
+    {
+        $this->account = $account;
+    }
+
+    public function setPayee(\Kassner\FinancesBundle\Entity\Payee $payee)
+    {
+        $this->payee = $payee;
+    }
+
+    public function setTransfer(\Kassner\FinancesBundle\Entity\TransactionTransfer $transfer)
+    {
+        $this->transfer = $transfer;
     }
 
 }
