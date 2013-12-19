@@ -13,8 +13,6 @@ use Kassner\FinancesBundle\Form\Search\TransactionSearch;
 
 /**
  * Transaction controller.
- *
- * @Route("/transaction")
  */
 class TransactionController extends Controller
 {
@@ -22,7 +20,7 @@ class TransactionController extends Controller
     /**
      * Lists all Transaction entities.
      *
-     * @Route("/{account}", name="transaction")
+     * @Route("/account/{account}/transaction", name="transaction", requirements={"account" = "\d+"})
      * @Method("GET")
      * @Template()
      */
@@ -70,7 +68,7 @@ class TransactionController extends Controller
     private function createSearchForm(Transaction $entity)
     {
         $form = $this->createForm(new TransactionSearch(), $entity, array(
-            'action' => $this->generateUrl('transaction', array('account' => $entity->getAccount())),
+            'action' => $this->generateUrl('transaction', array('account' => $entity->getAccount()->getId())),
             'method' => 'GET',
         ));
 
@@ -80,13 +78,13 @@ class TransactionController extends Controller
     /**
      * Creates a new Transaction entity.
      *
-     * @Route("/", name="transaction_create")
+     * @Route("/transaction/", name="transaction_create")
      * @Method("POST")
      * @Template("KassnerFinancesBundle:Transaction:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Transaction\Expense();
+        $entity = new Transaction();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -120,7 +118,7 @@ class TransactionController extends Controller
         ));
 
         $form->add('submit', 'control', array(
-            'back_url' => $this->generateUrl('transaction', array('account' => $entity->getAccount()))
+            'back_url' => $this->generateUrl('home')
         ));
 
         return $form;
@@ -129,15 +127,15 @@ class TransactionController extends Controller
     /**
      * Displays a form to create a new Transaction entity.
      *
-     * @Route("/new", name="transaction_new")
+     * @Route("/transaction/new", name="transaction_new")
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($account = null)
     {
         $entity = new Transaction();
         $form = $this->createCreateForm($entity);
-
+        
         return array(
             'entity' => $entity,
             'form' => $form->createView(),
@@ -147,7 +145,7 @@ class TransactionController extends Controller
     /**
      * Displays a form to edit an existing Transaction entity.
      *
-     * @Route("/{id}/edit", name="transaction_edit")
+     * @Route("/transaction/{id}/edit", name="transaction_edit")
      * @Method("GET")
      * @Template()
      */
@@ -195,7 +193,7 @@ class TransactionController extends Controller
     /**
      * Edits an existing Transaction entity.
      *
-     * @Route("/{id}", name="transaction_update")
+     * @Route("/transaction/{id}", name="transaction_update")
      * @Method("PUT")
      * @Template("KassnerFinancesBundle:Transaction:edit.html.twig")
      */
@@ -228,7 +226,7 @@ class TransactionController extends Controller
     /**
      * Deletes a Transaction entity.
      *
-     * @Route("/{id}/delete", name="transaction_delete")
+     * @Route("/transaction/{id}/delete", name="transaction_delete")
      * @Method({"GET", "DELETE"})
      */
     public function deleteAction(Request $request, $id)
