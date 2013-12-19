@@ -58,7 +58,7 @@ class Transaction
      *
      * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;
@@ -125,7 +125,7 @@ class Transaction
         $this->amount = $amount;
     }
 
-    public function setDate(\DateTime $date)
+    public function setDate(\DateTime $date = null)
     {
         $this->date = $date;
     }

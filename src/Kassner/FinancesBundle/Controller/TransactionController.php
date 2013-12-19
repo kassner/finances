@@ -22,14 +22,24 @@ class TransactionController extends Controller
     /**
      * Lists all Transaction entities.
      *
-     * @Route("/", name="transaction")
+     * @Route("/{account}", name="transaction")
      * @Method("GET")
      * @Template()
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $account)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $account = $em->getRepository('KassnerFinancesBundle:Account')->find($account);
+
+        if (!$account) {
+            $this->get('session')->getFlashBag()->add('error', 'Unable to find Account entity.');
+            return $this->redirect($this->generateUrl('account'));
+        }
+
         $showSearch = false;
         $entity = new Transaction();
+        $entity->setAccount($account);
 
         $searchForm = $this->createSearchForm($entity);
         $searchForm->handleRequest($request);
@@ -37,11 +47,9 @@ class TransactionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('KassnerFinancesBundle:Transaction')->createQueryBuilder('t');
 
-        if ($request->get('account')) {
-            $query->leftJoin('t.transfer', 'tt');
-            $query->andWhere('t.account = :account OR tt.account = :account');
-            $query->setParameter('account', $request->get('account'));
-        }
+        $query->leftJoin('t.transfer', 'tt');
+        $query->andWhere('t.account = :account OR tt.account = :account');
+        $query->setParameter('account', $account);
 
         return array(
             'search_form' => $searchForm->createView(),
@@ -60,7 +68,7 @@ class TransactionController extends Controller
     private function createSearchForm(Transaction $entity)
     {
         $form = $this->createForm(new TransactionSearch(), $entity, array(
-            'action' => $this->generateUrl('transaction'),
+            'action' => $this->generateUrl('transaction', array('account' => $entity->getAccount())),
             'method' => 'GET',
         ));
 
@@ -110,7 +118,7 @@ class TransactionController extends Controller
         ));
 
         $form->add('submit', 'control', array(
-            'back_url' => $this->generateUrl('transaction')
+            'back_url' => $this->generateUrl('transaction', array('account' => $entity->getAccount()))
         ));
 
         return $form;
