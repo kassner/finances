@@ -15,6 +15,13 @@ class TransactionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('type', 'choice', array(
+                'choices' => array(
+                    'expense' => 'Expense',
+                    'income' => 'Income',
+                    'transfer' => 'Transfer'
+                )
+            ))
             ->add('amount')
             ->add('date')
             ->add('account')

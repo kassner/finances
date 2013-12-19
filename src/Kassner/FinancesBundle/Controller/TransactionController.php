@@ -94,7 +94,7 @@ class TransactionController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'The Transaction was saved successfully.');
-            return $this->redirect($this->generateUrl('transaction'));
+            return $this->redirect($this->generateUrl('transaction', array('account' => $entity->getAccount()->getId())));
         }
 
         return array(
@@ -157,7 +157,7 @@ class TransactionController extends Controller
 
         if (!$entity) {
             $this->get('session')->getFlashBag()->add('error', 'Unable to find Transaction entity.');
-            return $this->redirect($this->generateUrl('transaction'));
+            return $this->redirect($this->generateUrl('home'));
         }
 
         $editForm = $this->createEditForm($entity);
@@ -183,7 +183,7 @@ class TransactionController extends Controller
         ));
 
         $form->add('submit', 'control', array(
-            'back_url' => $this->generateUrl('transaction'),
+            'back_url' => $this->generateUrl('transaction', array('account' => $entity->getAccount()->getId())),
             'delete_url' => $this->generateUrl('transaction_delete', array('id' => $entity->getId()))
         ));
 
@@ -204,7 +204,7 @@ class TransactionController extends Controller
 
         if (!$entity) {
             $this->get('session')->getFlashBag()->add('error', 'Unable to find Transaction entity.');
-            return $this->redirect($this->generateUrl('transaction'));
+            return $this->redirect($this->generateUrl('home'));
         }
 
         $editForm = $this->createEditForm($entity);
@@ -214,7 +214,7 @@ class TransactionController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'The Transaction was saved successfully.');
-            return $this->redirect($this->generateUrl('transaction'));
+            return $this->redirect($this->generateUrl('transaction', array('account' => $entity->getAccount()->getId())));
         }
 
         return array(
@@ -236,14 +236,15 @@ class TransactionController extends Controller
 
         if (!$entity) {
             $this->get('session')->getFlashBag()->add('error', 'Unable to find Transaction entity.');
-            return $this->redirect($this->generateUrl('transaction'));
+            return $this->redirect($this->generateUrl('home'));
         }
 
+        $accountId = $entity->getAccount()->getId();
         $em->remove($entity);
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('success', 'The Transaction was removed successfully.');
-        return $this->redirect($this->generateUrl('transaction'));
+        return $this->redirect($this->generateUrl('transaction', array('account' => $accountId)));
     }
 
 }
