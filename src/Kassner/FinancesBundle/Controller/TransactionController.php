@@ -52,6 +52,7 @@ class TransactionController extends Controller
         $query->setParameter('account', $account);
 
         return array(
+            'account' => $account,
             'search_form' => $searchForm->createView(),
             'entities' => $query->getQuery()->getResult(),
             'showSearch' => $showSearch

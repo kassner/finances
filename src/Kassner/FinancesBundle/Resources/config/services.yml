@@ -10,6 +10,11 @@ services:
         tags:
             - { name: twig.extension }
             
+    twig.extension.price:
+        class: Kassner\FinancesBundle\Twig\PriceExtension
+        tags:
+            - { name: twig.extension }
+
     finances.repository.account:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

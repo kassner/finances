@@ -2,7 +2,7 @@
 
 {% block body -%}
 <div class="crud">
-    <h1>{{ "Transaction list"|trans }}</h1>
+    <h1>{{ account.name }}</h1>
 
     <div class="control">
         <a class="btn btn-success" href="{{ path('transaction_new') }}">{{ "Add"|trans }}</a>
@@ -40,7 +40,14 @@
                 <td>{{ entity.category }}</td>
                 <td>{{ entity.payee }}</td>
                 <td>{{ entity.type }}</td>
-                <td>{{ entity.amount }}</td>
+                <td>
+                    {% if entity.type == 'expense' or (entity.type == 'transfer' and account.id == entity.account.id) %}
+                    {# @TODO negative price #}
+                    {{ entity.amount|price }}
+                    {% else %}
+                    {{ entity.amount|price }}
+                    {% endif %}
+                </td>
                 <td>{% if entity.date %}{{ entity.date|date('d/m/Y') }}{% endif %}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('transaction_edit', { 'id': entity.id }) }}">{{ "Edit"|trans }}</a>
