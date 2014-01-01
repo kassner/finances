@@ -85,6 +85,8 @@ class TransactionController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Transaction();
+        $entity->setDate(new \DateTime());
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -134,6 +136,8 @@ class TransactionController extends Controller
     public function newAction($account = null)
     {
         $entity = new Transaction();
+        $entity->setDate(new \DateTime());
+
         $form = $this->createCreateForm($entity);
         
         return array(
