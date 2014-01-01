@@ -34,7 +34,7 @@ class Account
      *
      * @ORM\Column(name="balance", type="decimal", precision=12, scale=2, nullable=true)
      */
-    private $balance;
+    private $balance = 0;
 
     public function getId()
     {
