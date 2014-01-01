@@ -122,7 +122,7 @@ class TransactionController extends Controller
         if ($entity->getAccount()) {
             $backUrl = $this->generateUrl('transaction', array('account' => $entity->getAccount()->getId()));
         } else {
-            $this->generateUrl('home');
+            $backUrl = $this->generateUrl('home');
         }
 
         $form->add('submit', 'control', array(
