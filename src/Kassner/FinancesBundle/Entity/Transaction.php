@@ -46,7 +46,7 @@ class Transaction
     /**
      * @var \Kassner\FinancesBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Category", inversedBy="transactions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })

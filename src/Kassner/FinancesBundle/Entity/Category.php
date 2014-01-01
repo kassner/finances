@@ -29,6 +29,11 @@ class Category
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Kassner\FinancesBundle\Entity\Transaction", mappedBy="category")
+     */
+    private $transactions;
+
     public function getId()
     {
         return $this->id;
@@ -47,6 +52,11 @@ class Category
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 
 }
