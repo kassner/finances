@@ -16,6 +16,8 @@
                 <ul class="nav-pills nav nav-stacked">
                     {% for category in categories %}
                     <li><a href="#">{{ category.name }} <span class="pull-right amount">{{ category.balance|price }}</span></a></li>
+                    {% else %}
+                    <li class="text-center">There is no transactions.</li>
                     {% endfor %}
                 </ul>
             </div>
