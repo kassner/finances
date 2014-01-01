@@ -5,7 +5,7 @@
     <h1>{{ account.name }}</h1>
 
     <div class="control">
-        <a class="btn btn-success" href="{{ path('transaction_new') }}">{{ "Add"|trans }}</a>
+        <a class="btn btn-success" href="{{ path('transaction_new', { 'account': account.id }) }}">{{ "Add"|trans }}</a>
         <a class="btn btn-default pull-right" data-toggle="collapse" href="#search-panel">{{ "Search"|trans }}</a>
         <div class="clearfix"></div>
     </div>
@@ -56,7 +56,7 @@
     </table>
 
     <div class="control">
-        <a class="btn btn-success" href="{{ path('transaction_new') }}">{{ "Add"|trans }}</a>
+        <a class="btn btn-success" href="{{ path('transaction_new', { 'account': account.id }) }}">{{ "Add"|trans }}</a>
     </div>
 </div>
 {% endblock %}

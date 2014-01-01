@@ -47,7 +47,7 @@ class TransactionController extends Controller
         $query->leftJoin('t.transfer', 'tt');
         $query->andWhere('t.account = :account OR tt.account = :account');
         $query->setParameter('account', $account);
-        
+
         $query->orderBy('t.date', 'ASC');
 
         return array(
@@ -119,8 +119,14 @@ class TransactionController extends Controller
             'method' => 'POST',
         ));
 
+        if ($entity->getAccount()) {
+            $backUrl = $this->generateUrl('transaction', array('account' => $entity->getAccount()->getId()));
+        } else {
+            $this->generateUrl('home');
+        }
+
         $form->add('submit', 'control', array(
-            'back_url' => $this->generateUrl('home')
+            'back_url' => $backUrl
         ));
 
         return $form;
@@ -129,7 +135,8 @@ class TransactionController extends Controller
     /**
      * Displays a form to create a new Transaction entity.
      *
-     * @Route("/transaction/new", name="transaction_new")
+     * @Route("/transaction/new", name="transaction_new", defaults={"account" = null})
+     * @Route("/transaction/new/{account}", name="transaction_new")
      * @Method("GET")
      * @Template()
      */
@@ -138,8 +145,15 @@ class TransactionController extends Controller
         $entity = new Transaction();
         $entity->setDate(new \DateTime());
 
+        if ($account) {
+            $account = $this->getDoctrine()->getManager()->find('KassnerFinancesBundle:Account', $account);
+            if ($account) {
+                $entity->setAccount($account);
+            }
+        }
+
         $form = $this->createCreateForm($entity);
-        
+
         return array(
             'entity' => $entity,
             'form' => $form->createView(),
