@@ -16,7 +16,27 @@ class Category
 
     public function getTop10($period, $type)
     {
-        /** @TODO $period */
+        switch ($period) {
+            case 'last_year':
+                $dateStart = date('Y-01-01', strtotime('-1 year'));
+                $dateEnd = date('Y-12-31', strtotime('-1 year'));
+                break;
+            case 'this_year':
+            default:
+                $dateStart = date('Y-01-01');
+                $dateEnd = date('Y-12-31');
+                break;
+            case 'last_month':
+                $dateStart = date('Y-m-01', strtotime('-1 month'));
+                $dateEnd = date('Y-m-t', strtotime('-1 month'));
+                break;
+            case 'this_month':
+            default:
+                $dateStart = date('Y-m-01');
+                $dateEnd = date('Y-m-t');
+                break;
+        }
+
         $builder = $this->repository->createQueryBuilder('c')
             ->addSelect('c.id')
             ->addSelect('c.name')
@@ -27,6 +47,9 @@ class Category
             ->setParameter('type', $type)
             ->addGroupBy('c.id')
             ->addGroupBy('c.name')
+            ->andWhere('t.date >= :date_start AND t.date <= :date_end')
+            ->setParameter('date_start', $dateStart)
+            ->setParameter('date_end', $dateEnd)
         ;
 
         return $builder->getQuery()->getResult();
