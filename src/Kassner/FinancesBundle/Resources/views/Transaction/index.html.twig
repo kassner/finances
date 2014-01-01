@@ -25,7 +25,6 @@
                 <th>{{ "Id"|trans }}</th>
                 <th>{{ "Category"|trans }}</th>
                 <th>{{ "Payee"|trans }}</th>
-                <th>{{ "Type"|trans }}</th>
                 <th>{{ "Amount"|trans }}</th>
                 <th>{{ "Date"|trans }}</th>
                 <th width="170">{{ "Actions"|trans }}</th>
@@ -37,7 +36,6 @@
                 <td>{{ entity.id }}</td>
                 <td>{{ entity.category }}</td>
                 <td>{{ entity.payee }}</td>
-                <td>{{ entity.type }}</td>
                 <td>
                     {% if entity.type == 'expense' or (entity.type == 'transfer' and account.id == entity.account.id) %}
                     {{ (entity.amount * -1)|price }}
