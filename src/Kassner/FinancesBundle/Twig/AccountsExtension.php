@@ -17,9 +17,15 @@ class AccountsExtension extends \Twig_Extension
     public function getGlobals()
     {
         $accounts = $this->repository->findAll();
+        $balance = 0;
+
+        foreach ($accounts as $account) {
+            $balance += $account->getBalance();
+        }
 
         return array(
-            'accounts' => $accounts
+            'accounts' => $accounts,
+            'balance' => $balance
         );
     }
 
