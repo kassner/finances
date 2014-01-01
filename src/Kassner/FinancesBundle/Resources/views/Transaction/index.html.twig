@@ -48,7 +48,7 @@
                 <td>{% if entity.date %}{{ entity.date|date('d/m/Y') }}{% endif %}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('transaction_edit', { 'id': entity.id }) }}">{{ "Edit"|trans }}</a>
-                    <a class="btn btn-danger" href="{{ path('transaction_edit', { 'id': entity.id }) }}" onclick="return confirm('{{ "Are you sure?"|trans }}');">{{ "Delete"|trans }}</a>
+                    <a class="btn btn-danger" href="{{ path('transaction_delete', { 'id': entity.id }) }}" onclick="return confirm('{{ "Are you sure?"|trans }}');">{{ "Delete"|trans }}</a>
                 </td>
             </tr>
             {% endfor %}

@@ -20,3 +20,10 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments: [ "KassnerFinancesBundle:Account" ]
+        
+    finances.service.transactionListener:
+        class: Kassner\FinancesBundle\Service\TransactionListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }

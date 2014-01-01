@@ -56,7 +56,7 @@ class Transaction
     /**
      * @var \Kassner\FinancesBundle\Entity\Account
      *
-     * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Account", inversedBy="transactions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
      * })

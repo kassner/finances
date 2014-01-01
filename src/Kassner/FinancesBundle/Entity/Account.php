@@ -36,6 +36,11 @@ class Account
      */
     private $balance = 0;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Kassner\FinancesBundle\Entity\Transaction", mappedBy="account")
+     */
+    private $transactions;
+
     public function getId()
     {
         return $this->id;
@@ -64,6 +69,11 @@ class Account
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 
 }
