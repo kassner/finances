@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "30787b3817ede854e1267adf2b889b5c",
+    "hash": "a12f5a2c4df34c03da911e4451cae11b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -296,16 +296,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "328357bd9eea9d671fe5fff0737f01953bfe66a0"
+                "reference": "fec965d330c958e175c39e61c3f6751955af32d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/328357bd9eea9d671fe5fff0737f01953bfe66a0",
-                "reference": "328357bd9eea9d671fe5fff0737f01953bfe66a0",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/fec965d330c958e175c39e61c3f6751955af32d0",
+                "reference": "fec965d330c958e175c39e61c3f6751955af32d0",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-11-12 12:38:28"
+            "time": "2014-01-01 16:43:57"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -730,12 +730,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kassner/generator-bundle.git",
-                "reference": "a068b49a7f4d86d8badfad67cab58b47eec1d7c5"
+                "reference": "e7a1562ffecc41ba486610c7d86c076143522d79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kassner/generator-bundle/zipball/a068b49a7f4d86d8badfad67cab58b47eec1d7c5",
-                "reference": "a068b49a7f4d86d8badfad67cab58b47eec1d7c5",
+                "url": "https://api.github.com/repos/kassner/generator-bundle/zipball/e7a1562ffecc41ba486610c7d86c076143522d79",
+                "reference": "e7a1562ffecc41ba486610c7d86c076143522d79",
                 "shasum": ""
             },
             "require": {
@@ -753,7 +753,7 @@
                 "MIT"
             ],
             "description": "Extension of SensioGeneratorBundle to add custom file templates for doctrine:generate:crud",
-            "time": "2013-12-13 02:44:55"
+            "time": "2013-12-15 10:46:16"
         },
         {
             "name": "kriswallsmith/assetic",
