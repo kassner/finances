@@ -23,6 +23,7 @@
         <thead>
             <tr>
                 <th>{{ "Id"|trans }}</th>
+                <th>{{ "Status"|trans }}</th>
                 <th>{{ "Category"|trans }}</th>
                 <th>{{ "Payee"|trans }}</th>
                 <th>{{ "Amount"|trans }}</th>
@@ -32,8 +33,9 @@
         </thead>
         <tbody>
             {% for entity in entities %}
-            <tr>
+            <tr class="{% if not entity.isReconciled %}warning{% endif %}">
                 <td>{{ entity.id }}</td>
+                <td>{% if entity.isReconciled %}Reconciled{% else %}Unreconciled{% endif %}</td>
                 <td>{{ entity.category }}</td>
                 <td>{{ entity.payee }}</td>
                 <td>

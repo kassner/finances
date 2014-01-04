@@ -44,6 +44,13 @@ class Transaction
     private $type;
 
     /**
+     * @var boolean
+     * 
+     * @ORM\Column(name="is_reconciled", type="boolean")
+     */
+    private $isReconciled = false;
+
+    /**
      * @var \Kassner\FinancesBundle\Entity\Category
      *
      * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Category", inversedBy="transactions")
@@ -153,6 +160,16 @@ class Transaction
     public function setTransfer(\Kassner\FinancesBundle\Entity\TransactionTransfer $transfer)
     {
         $this->transfer = $transfer;
+    }
+
+    public function getIsReconciled()
+    {
+        return $this->isReconciled;
+    }
+
+    public function setIsReconciled($isReconciled)
+    {
+        $this->isReconciled = $isReconciled;
     }
 
 }
