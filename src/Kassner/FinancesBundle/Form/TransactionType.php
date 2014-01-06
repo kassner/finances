@@ -27,7 +27,9 @@ class TransactionType extends AbstractType
             ->add('account')
             ->add('payee')
             ->add('category')
-            ->add('isReconciled')
+            ->add('isReconciled', 'checkbox', array(
+                'required' => false
+            ))
         ;
     }
     
