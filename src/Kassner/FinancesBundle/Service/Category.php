@@ -50,6 +50,7 @@ class Category
             ->andWhere('t.date >= :date_start AND t.date <= :date_end')
             ->setParameter('date_start', $dateStart)
             ->setParameter('date_end', $dateEnd)
+            ->setMaxResults(10)
         ;
 
         return $builder->getQuery()->getResult();
