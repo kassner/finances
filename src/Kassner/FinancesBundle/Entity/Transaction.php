@@ -51,6 +51,11 @@ class Transaction
     private $isReconciled = false;
 
     /**
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
      * @var \Kassner\FinancesBundle\Entity\Category
      *
      * @ORM\ManyToOne(targetEntity="Kassner\FinancesBundle\Entity\Category", inversedBy="transactions")
@@ -170,6 +175,16 @@ class Transaction
     public function setIsReconciled($isReconciled)
     {
         $this->isReconciled = $isReconciled;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
 }

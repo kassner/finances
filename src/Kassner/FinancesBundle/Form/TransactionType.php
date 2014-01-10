@@ -30,6 +30,9 @@ class TransactionType extends AbstractType
             ->add('isReconciled', 'checkbox', array(
                 'required' => false
             ))
+            ->add('description', 'textarea', array(
+                'required' => false
+            ))
         ;
     }
     
