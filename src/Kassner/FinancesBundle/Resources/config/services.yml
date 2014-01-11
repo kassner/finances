@@ -3,13 +3,13 @@ services:
         class: Kassner\FinancesBundle\Form\Type\ControlType
         tags:
             - { name: form.type, alias: control }
-            
+
     twig.extension.accounts:
         class: Kassner\FinancesBundle\Twig\AccountsExtension
         arguments: [ @finances.repository.account ]
         tags:
             - { name: twig.extension }
-            
+
     twig.extension.price:
         class: Kassner\FinancesBundle\Twig\PriceExtension
         tags:
@@ -20,20 +20,30 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments: [ "KassnerFinancesBundle:Account" ]
-        
+
     finances.repository.category:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments: [ "KassnerFinancesBundle:Category" ]
-        
+
+    finances.repository.transaction:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ "KassnerFinancesBundle:Transaction" ]
+
     finances.service.transactionListener:
         class: Kassner\FinancesBundle\Service\TransactionListener
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postRemove }
-            
+
     finances.service.category:
         class: Kassner\FinancesBundle\Service\Category
         arguments: [ @finances.repository.category ]
+
+    finances.service.transaction:
+        class: Kassner\FinancesBundle\Service\Transaction
+        arguments: [ @finances.repository.transaction ]
