@@ -14,10 +14,17 @@ class TransactionTransfer
 {
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
      * @var \Kassner\FinancesBundle\Entity\Transaction
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="Kassner\FinancesBundle\Entity\Transaction", inversedBy="transfer")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="transaction_id", referencedColumnName="id")

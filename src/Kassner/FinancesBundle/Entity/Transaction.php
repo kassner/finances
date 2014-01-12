@@ -88,9 +88,15 @@ class Transaction
     /**
      * @var \Kassner\FinancesBundle\Entity\TransactionTransfer
      *
-     * @ORM\OneToOne(targetEntity="Kassner\FinancesBundle\Entity\TransactionTransfer", mappedBy="transaction")
+     * @ORM\OneToOne(targetEntity="Kassner\FinancesBundle\Entity\TransactionTransfer", mappedBy="transaction", cascade={"persist", "remove"})
      */
     private $transfer;
+
+    public function __construct()
+    {
+         $this->transfer = new TransactionTransfer();
+         $this->transfer->setTransaction($this);
+    }
 
     public function getId()
     {

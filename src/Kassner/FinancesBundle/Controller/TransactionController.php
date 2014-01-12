@@ -84,6 +84,11 @@ class TransactionController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
+        /**
+         * @TODO validate fields if is a transfer
+         * @TODO if a entity is not a transfer, do $entity->setTransfer(null)
+         */
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);

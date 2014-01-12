@@ -25,6 +25,14 @@ class TransactionType extends AbstractType
             ->add('amount')
             ->add('date')
             ->add('account')
+            /**
+             * @TODO disable/hide field via javascript when transaction is not a transfer
+             */
+            ->add('destination_account', 'entity', array(
+                'class' => 'Kassner\FinancesBundle\Entity\Account',
+                'required' => false,
+                'property_path' => 'transfer.account'
+            ))
             ->add('payee')
             ->add('category')
             ->add('isReconciled', 'checkbox', array(
