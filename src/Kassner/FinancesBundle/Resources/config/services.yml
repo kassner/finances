@@ -43,7 +43,3 @@ services:
     finances.service.category:
         class: Kassner\FinancesBundle\Service\Category
         arguments: [ @finances.repository.category ]
-
-    finances.service.transaction:
-        class: Kassner\FinancesBundle\Service\Transaction
-        arguments: [ @finances.repository.transaction ]

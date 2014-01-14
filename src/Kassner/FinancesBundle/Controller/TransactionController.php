@@ -42,7 +42,7 @@ class TransactionController extends Controller
         $searchForm = $this->createSearchForm($entity);
         $searchForm->handleRequest($request);
 
-        $query = $this->get('finances.service.transaction')->getQueryByAccountId($account);
+        $query = $em->getRepository('KassnerFinancesBundle:Transaction')->getQueryByAccountId($account);
 
         return array(
             'account' => $account,

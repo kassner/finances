@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Transaction
  *
  * @ORM\Table(name="transaction", indexes={@ORM\Index(name="IDX_723705D19B6B5FBA", columns={"account_id"}), @ORM\Index(name="IDX_723705D1CB4B68F", columns={"payee_id"}), @ORM\Index(name="IDX_723705D112469DE2", columns={"category_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Kassner\FinancesBundle\Repository\Transaction")
  */
 class Transaction
 {
