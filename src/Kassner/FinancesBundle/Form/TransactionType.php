@@ -2,13 +2,15 @@
 
 namespace Kassner\FinancesBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TransactionType extends AbstractType
 {
-        /**
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -24,17 +26,46 @@ class TransactionType extends AbstractType
             ))
             ->add('amount')
             ->add('date')
-            ->add('account')
+            ->add('account', 'entity', array(
+                'class' => 'Kassner\FinancesBundle\Entity\Account',
+                'required' => true,
+                'query_builder' => function(EntityRepository $repository) {
+                    $qb = $repository->createQueryBuilder('e');
+                    $qb->orderBy('e.name', 'ASC');
+                    return $qb;
+                }
+            ))
             /**
              * @TODO disable/hide field via javascript when transaction is not a transfer
              */
             ->add('destination_account', 'entity', array(
                 'class' => 'Kassner\FinancesBundle\Entity\Account',
                 'required' => false,
-                'property_path' => 'transfer.account'
+                'property_path' => 'transfer.account',
+                'query_builder' => function(EntityRepository $repository) {
+                    $qb = $repository->createQueryBuilder('e');
+                    $qb->orderBy('e.name', 'ASC');
+                    return $qb;
+                }
             ))
-            ->add('payee')
-            ->add('category')
+            ->add('payee', 'entity', array(
+                'class' => 'Kassner\FinancesBundle\Entity\Payee',
+                'required' => false,
+                'query_builder' => function(EntityRepository $repository) {
+                    $qb = $repository->createQueryBuilder('e');
+                    $qb->orderBy('e.name', 'ASC');
+                    return $qb;
+                }
+            ))
+            ->add('category', 'entity', array(
+                'class' => 'Kassner\FinancesBundle\Entity\Category',
+                'required' => false,
+                'query_builder' => function(EntityRepository $repository) {
+                    $qb = $repository->createQueryBuilder('e');
+                    $qb->orderBy('e.name', 'ASC');
+                    return $qb;
+                }
+            ))
             ->add('isReconciled', 'checkbox', array(
                 'required' => false
             ))
@@ -43,7 +74,7 @@ class TransactionType extends AbstractType
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
@@ -61,4 +92,5 @@ class TransactionType extends AbstractType
     {
         return 'kassner_financesbundle_transaction';
     }
+
 }
