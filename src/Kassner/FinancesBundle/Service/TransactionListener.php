@@ -15,9 +15,7 @@ class TransactionListener
         $entity = $args->getEntity();
 
         if ($entity instanceof TransactionEntity) {
-            $this->updateAccountBalance($args->getEntityManager(), $entity->getAccount());
-            $args->getEntityManager()->persist($entity->getAccount());
-            $args->getEntityManager()->flush();
+            $this->updateBalance($args->getEntityManager());
         }
     }
 
@@ -26,9 +24,7 @@ class TransactionListener
         $entity = $args->getEntity();
 
         if ($entity instanceof TransactionEntity) {
-            $this->updateAccountBalance($args->getEntityManager(), $entity->getAccount());
-            $args->getEntityManager()->persist($entity->getAccount());
-            $args->getEntityManager()->flush();
+            $this->updateBalance($args->getEntityManager());
         }
     }
 
@@ -37,40 +33,48 @@ class TransactionListener
         $entity = $args->getEntity();
 
         if ($entity instanceof TransactionEntity) {
-            $this->updateAccountBalance($args->getEntityManager(), $entity->getAccount());
-            $args->getEntityManager()->persist($entity->getAccount());
-            $args->getEntityManager()->flush();
+            $this->updateBalance($args->getEntityManager());
         }
     }
 
-    public function updateAccountBalance(EntityManager $em, AccountEntity $account)
+    public function updateBalance(EntityManager $em)
     {
-        $balance = 0;
-        $transactions = $em
-            ->getRepository('KassnerFinancesBundle:Transaction')
-            ->findByAccountId($account->getId())
-        ;
+        /**
+         * @TODO update balance only for changed accounts
+         */
+        $transactions = $em->getRepository('KassnerFinancesBundle:Transaction')->findAll();
+        $accounts = array();
 
         foreach ($transactions as $transaction) {
+            if (!isset($accounts[$transaction->getAccount()->getId()])) {
+                $accounts[$transaction->getAccount()->getId()] = 0;
+            }
+
             switch ($transaction->getType()) {
                 case 'income':
-                    $balance += $transaction->getAmount();
+                    $accounts[$transaction->getAccount()->getId()] += $transaction->getAmount();
                     break;
                 case 'expense':
-                    $balance -= $transaction->getAmount();
+                    $accounts[$transaction->getAccount()->getId()] -= $transaction->getAmount();
                     break;
                 case 'transfer':
-                    if ($account->getId() == $transaction->getTransfer()->getAccount()->getId()) {
-                        $balance += $transaction->getAmount();
-                    } else {
-                        $balance -= $transaction->getAmount();
-                        $this->updateAccountBalance($em, $transaction->getTransfer()->getAccount());
+                    if (!isset($accounts[$transaction->getTransfer()->getAccount()->getId()])) {
+                        $accounts[$transaction->getTransfer()->getAccount()->getId()] = 0;
                     }
+
+                    $accounts[$transaction->getAccount()->getId()] -= $transaction->getAmount();
+                    $accounts[$transaction->getTransfer()->getAccount()->getId()] += $transaction->getAmount();
                     break;
             }
         }
 
-        $account->setBalance($balance);
+        foreach ($accounts as $id => $balance) {
+            $account = $em->getRepository('KassnerFinancesBundle:Account')->find($id);
+            $account->setBalance($balance);
+            $em->persist($account);
+        }
+
+        $em->flush();
     }
 
 }
