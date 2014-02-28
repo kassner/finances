@@ -26,26 +26,31 @@
                 <th>{{ "Status"|trans }}</th>
                 <th>{{ "Category"|trans }}</th>
                 <th>{{ "Payee"|trans }}</th>
-                <th>{{ "Amount"|trans }}</th>
                 <th>{{ "Date"|trans }}</th>
+                <th>{{ "Amount"|trans }}</th>
+                <th>{{ "Balance"|trans }}</th>
                 <th width="170">{{ "Actions"|trans }}</th>
             </tr>
         </thead>
         <tbody>
+            {% set balance = 0 %}
             {% for entity in entities %}
             <tr class="{% if not entity.isReconciled %}warning{% endif %}">
                 <td>{{ entity.id }}</td>
                 <td>{% if entity.isReconciled %}Reconciled{% else %}Unreconciled{% endif %}</td>
                 <td>{{ entity.category }}</td>
                 <td>{{ entity.payee }}</td>
+                <td>{% if entity.date %}{{ entity.date|date('d/m/Y') }}{% endif %}</td>
                 <td>
                     {% if entity.type == 'expense' or (entity.type == 'transfer' and account.id == entity.account.id) %}
+                    {% set balance = balance + (entity.amount * -1) %}
                     {{ (entity.amount * -1)|price }}
                     {% else %}
+                    {% set balance = balance + entity.amount %}
                     {{ entity.amount|price }}
                     {% endif %}
                 </td>
-                <td>{% if entity.date %}{{ entity.date|date('d/m/Y') }}{% endif %}</td>
+                <td>{{ balance|price }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('transaction_edit', { 'id': entity.id }) }}">{{ "Edit"|trans }}</a>
                     <a class="btn btn-danger" href="{{ path('transaction_delete', { 'id': entity.id }) }}" onclick="return confirm('{{ "Are you sure?"|trans }}');">{{ "Delete"|trans }}</a>
