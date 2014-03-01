@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Kassner\FinancesBundle\Entity\Account;
 use Kassner\FinancesBundle\Entity\Transaction;
 use Kassner\FinancesBundle\Form\TransactionType;
 use Kassner\FinancesBundle\Form\Search\TransactionSearch;
@@ -21,28 +22,46 @@ class TransactionController extends Controller
      * Lists all Transaction entities.
      *
      * @Route("/account/{account}/transaction", name="transaction", requirements={"account" = "\d+"})
+     * @Route("/transactions", name="transaction_all")
      * @Method("GET")
      * @Template()
      */
-    public function indexAction(Request $request, $account)
+    public function indexAction(Request $request, $account = null)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $account = $em->getRepository('KassnerFinancesBundle:Account')->find($account);
-
-        if (!$account) {
-            $this->get('session')->getFlashBag()->add('error', 'Unable to find Account entity.');
-            return $this->redirect($this->generateUrl('account'));
-        }
-
         $showSearch = false;
         $entity = new Transaction();
-        $entity->setAccount($account);
+        $query = $em->getRepository('KassnerFinancesBundle:Transaction')->createQueryBuilder('t');
+
+        if ($account) {
+            $account = $em->getRepository('KassnerFinancesBundle:Account')->find($account);
+
+            if (!$account) {
+                $this->get('session')->getFlashBag()->add('error', 'Unable to find Account entity.');
+                return $this->redirect($this->generateUrl('account'));
+            }
+
+            $entity->setAccount($account);
+            $query->andWhere('t.account = :account');
+            $query->setParameter('account', $account);
+        } else {
+            $account = new Account();
+        }
 
         $searchForm = $this->createSearchForm($entity);
         $searchForm->handleRequest($request);
 
-        $query = $em->getRepository('KassnerFinancesBundle:Transaction')->getQueryByAccountId($account);
+        if ($entity->getPayee()) {
+            $query->andWhere('t.payee = :payee');
+            $query->setParameter('payee', $entity->getPayee());
+        }
+
+        if ($entity->getCategory()) {
+            $query->andWhere('t.category = :category');
+            $query->setParameter('category', $entity->getCategory());
+        }
+
+        $query->orderBy('t.date', 'ASC');
 
         return array(
             'account' => $account,
@@ -61,8 +80,14 @@ class TransactionController extends Controller
      */
     private function createSearchForm(Transaction $entity)
     {
+        if ($entity->getAccount()) {
+            $url = $this->generateUrl('transaction', array('account' => $entity->getAccount()->getId()));
+        } else {
+            $url = $this->generateUrl('transaction_all');
+        }
+
         $form = $this->createForm(new TransactionSearch(), $entity, array(
-            'action' => $this->generateUrl('transaction', array('account' => $entity->getAccount()->getId())),
+            'action' => $url,
             'method' => 'GET',
         ));
 

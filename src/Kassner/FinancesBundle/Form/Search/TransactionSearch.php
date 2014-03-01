@@ -16,12 +16,6 @@ class TransactionSearch extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('amount', null, array(
-                'required' => false
-            ))
-            ->add('date', null, array(
-                'required' => false
-            ))
             ->add('account', null, array(
                 'required' => false
             ))

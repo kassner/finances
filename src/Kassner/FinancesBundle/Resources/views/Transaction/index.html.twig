@@ -2,7 +2,7 @@
 
 {% block body -%}
 <div class="crud">
-    <h1>{{ account.name }}</h1>
+    <h1>{% if account.name is not null %}{{ account.name }}{% else %}{{ "Transactions"|trans }}{% endif %}</h1>
 
     <div class="control">
         <a class="btn btn-success" href="{{ path('transaction_new', { 'account': account.id }) }}">{{ "Add"|trans }}</a>
