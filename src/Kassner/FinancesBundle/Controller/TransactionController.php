@@ -42,7 +42,8 @@ class TransactionController extends Controller
             }
 
             $entity->setAccount($account);
-            $query->andWhere('t.account = :account');
+            $query->leftJoin('t.transfer', 'tt');
+            $query->andWhere('t.account = :account OR tt.account = :account');
             $query->setParameter('account', $account);
         } else {
             $account = new Account();
@@ -54,11 +55,13 @@ class TransactionController extends Controller
         if ($entity->getPayee()) {
             $query->andWhere('t.payee = :payee');
             $query->setParameter('payee', $entity->getPayee());
+            $showSearch = true;
         }
 
         if ($entity->getCategory()) {
             $query->andWhere('t.category = :category');
             $query->setParameter('category', $entity->getCategory());
+            $showSearch = true;
         }
 
         $query->orderBy('t.date', 'ASC');
@@ -113,7 +116,6 @@ class TransactionController extends Controller
          * @TODO validate fields if is a transfer
          * @TODO if a entity is not a transfer, do $entity->setTransfer(null)
          */
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
